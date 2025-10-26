@@ -5,20 +5,12 @@ namespace GildedRoseKata.Domain;
 
 public static class ItemFactory
 {
-    public static IInventoryItem CreateFrom(Item item)
+    public static IInventoryItem CreateFrom(Item item) => item.Name switch
     {
-        if (item.Name.Contains("Sulfuras"))
-            return new Sulfuras(item);
-
-        if (item.Name == "Aged Brie")
-            return new AgedBrie(item);
-
-        if (item.Name.StartsWith("Backstage passes"))
-            return new BackstagePass(item);
-
-        if (item.Name.StartsWith("Conjured"))
-            return new ConjuredItem(item);
-
-        return new NormalItem(item);
-    }
+        _ when item.Name.Contains("Sulfuras") => new Sulfuras(item),
+        "Aged Brie" => new AgedBrie(item),
+        _ when item.Name.StartsWith("Backstage passes") => new BackstagePass(item),
+        _ when item.Name.StartsWith("Conjured") => new ConjuredItem(item),
+        _ => new NormalItem(item)
+    };
 }
