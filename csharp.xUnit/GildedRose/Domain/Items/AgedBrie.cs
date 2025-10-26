@@ -1,4 +1,3 @@
-using System;
 using GildedRoseKata.Abstractions;
 
 namespace GildedRoseKata.Domain.Items;
@@ -21,14 +20,15 @@ public sealed class AgedBrie : IInventoryItem
 
     public void NextDay()
     {
-        _item.SellIn--;
+        var sellIn = SellIn.Decrement();
         
-        var increaseValue = HasExpired() 
+        var increaseValue = sellIn.Value < 0 
             ? ExpiredIncreaseRate 
             : NormalIncreaseRate;
         
-        _item.Quality = Math.Min(50, _item.Quality + increaseValue);
+        var quality = Quality.Increase(increaseValue);
+        
+        _item.SellIn = sellIn.Value;
+        _item.Quality = quality.Value;
     }
-
-    private bool HasExpired() => _item.SellIn < 0;
 }

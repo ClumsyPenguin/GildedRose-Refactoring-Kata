@@ -1,4 +1,3 @@
-using System;
 using GildedRoseKata.Abstractions;
 
 namespace GildedRoseKata.Domain.Items;
@@ -6,7 +5,7 @@ namespace GildedRoseKata.Domain.Items;
 public sealed class ConjuredItem : IInventoryItem
 {
     private const int NormalDegradationRate = 2;
-    private const int ExpiredDegradationRate = 4; 
+    private const int ExpiredDegradationRate = 4;
 
     private readonly Item _item;
 
@@ -21,14 +20,15 @@ public sealed class ConjuredItem : IInventoryItem
 
     public void NextDay()
     {
-        _item.SellIn--;
+        var sellIn = SellIn.Decrement();
         
-        var degradationRate = HasExpired() 
+        var degradationRate = sellIn.Value < 0 
             ? ExpiredDegradationRate 
             : NormalDegradationRate;
         
-        _item.Quality = Math.Max(0, _item.Quality - degradationRate);
+        var quality = Quality.Decrease(degradationRate);
+        
+        _item.SellIn = sellIn.Value;
+        _item.Quality = quality.Value;
     }
-
-    private bool HasExpired() => _item.SellIn < 0;
 }

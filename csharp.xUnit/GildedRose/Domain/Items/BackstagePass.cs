@@ -1,4 +1,3 @@
-using System;
 using GildedRoseKata.Abstractions;
 
 namespace GildedRoseKata.Domain.Items;
@@ -21,29 +20,31 @@ public sealed class BackstagePass : IInventoryItem
 
     public void NextDay()
     {
-        _item.SellIn--;
+        var sellIn = SellIn.Decrement();
         
-        if (HasConcertPassed())
+        if (sellIn.Value < 0)
         {
+            _item.SellIn = sellIn.Value;
             _item.Quality = 0;
             return;
         }
         
-        var increaseValue = CalculateQualityIncrease();
-        _item.Quality = Math.Min(50, _item.Quality + increaseValue);
+        var increaseValue = CalculateQualityIncrease(sellIn);
+        var quality = Quality.Increase(increaseValue);
+        
+        _item.SellIn = sellIn.Value;
+        _item.Quality = quality.Value;
     }
 
-    private bool HasConcertPassed() => _item.SellIn < 0;
-
-    private int CalculateQualityIncrease()
+    private static int CalculateQualityIncrease(SellIn sellIn)
     {
         const int baseIncrease = 1;
 
-        return _item.SellIn switch
+        return sellIn.Value switch
         {
             < FiveDaysThreshold => baseIncrease + 2,
-            < TenDaysThreshold => baseIncrease + 1,   // 10 days or less: +2 total
-            _ => baseIncrease                          // More than 10 days: +1
+            < TenDaysThreshold => baseIncrease + 1,
+            _ => baseIncrease
         };
     }
 }
