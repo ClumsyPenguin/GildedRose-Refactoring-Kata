@@ -26,6 +26,13 @@ internal class ItemBuilder
         return this;
     }
 
+    public ItemBuilder AsSulfuras()
+    {
+        _name = "Sulfuras," + _name;
+        _quality = 80;
+
+        return this;
+    }
     public ItemBuilder AsConjured(string itemName = "Conjured Mana Cake")
     {
         _name = itemName;
@@ -35,13 +42,6 @@ internal class ItemBuilder
     public ItemBuilder AsAgedBrie()
     {
         _name = "Aged Brie";
-        return this;
-    }
-
-    public ItemBuilder AsSulfuras()
-    {
-        _name = "Sulfuras, Hand of Ragnaros";
-        _quality = 80;
         return this;
     }
 

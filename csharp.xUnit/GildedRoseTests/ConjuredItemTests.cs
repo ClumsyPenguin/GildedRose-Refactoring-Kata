@@ -1,11 +1,10 @@
-using Xunit;
 using FluentAssertions;
-using GildedRoseKata;
 using GildedRoseTests.Builders;
+using Xunit;
 
 namespace GildedRoseTests;
 
-public class GildedRoseTest
+public class ConjuredItemTests
 {
     [Fact]
     public void Conjured_Item_Should_Degrade_Twice_As_Fast_Before_Sell_Date()
