@@ -1,4 +1,4 @@
-namespace GildedRoseKata.Abstractions;
+namespace GildedRoseKata.Domain.Items.Abstractions;
 
 public interface IInventoryItem
 {

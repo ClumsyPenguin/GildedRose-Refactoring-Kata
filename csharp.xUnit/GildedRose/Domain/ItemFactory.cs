@@ -1,5 +1,5 @@
-using GildedRoseKata.Abstractions;
 using GildedRoseKata.Domain.Items;
+using GildedRoseKata.Domain.Items.Abstractions;
 
 namespace GildedRoseKata.Domain;
 
